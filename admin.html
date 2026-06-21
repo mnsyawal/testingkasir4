@@ -110,7 +110,7 @@
         <div class="bg-white rounded-xl md:rounded-2xl border shadow-sm mb-10 overflow-x-auto">
             <table class="w-full text-left text-sm whitespace-nowrap min-w-max">
                 <thead class="bg-gray-50 border-b text-gray-600">
-                    <tr><th class="p-3 md:p-4">SKU</th><th class="p-3 md:p-4">Nama</th><th class="p-3 md:p-4">Harga Jual</th><th class="p-3 md:p-4">HPP</th><th class="p-3 md:p-4">Stok</th></tr>
+                    <tr><th class="p-3 md:p-4">SKU</th><th class="p-3 md:p-4">Nama</th><th class="p-3 md:p-4">Harga Jual</th><th class="p-3 md:p-4">HPP</th><th class="p-3 md:p-4">Stok</th><th class="p-3 md:p-4 text-center">Aksi</th></tr>
                 </thead>
                 <tbody id="tabel-produk-body" class="divide-y divide-gray-100"></tbody>
             </table>
@@ -136,6 +136,30 @@
         </div>
     </div>
 
+    <div id="modal-edit-produk" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4">
+        <div class="bg-white p-6 rounded-2xl w-full max-w-sm">
+            <h3 class="font-bold mb-4 text-lg">✏️ Edit Produk</h3>
+            <input id="edit-sku-lama" type="hidden"> <label class="block text-xs font-bold text-gray-500 mb-1">Nama Produk</label>
+            <input id="edit-nama" placeholder="Nama" class="w-full p-2 border rounded-lg mb-2 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="flex gap-2 mb-2">
+                <div class="w-1/2">
+                    <label class="block text-xs font-bold text-gray-500 mb-1">Kategori</label>
+                    <input id="edit-kategori" placeholder="Kategori" class="w-full p-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="w-1/2">
+                    <label class="block text-xs font-bold text-gray-500 mb-1">Satuan</label>
+                    <input id="edit-satuan" placeholder="Satuan" class="w-full p-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+            <label class="block text-xs font-bold text-gray-500 mb-1">Harga Jual Baru</label>
+            <input type="number" id="edit-harga" placeholder="Harga Jual" class="w-full p-2 border rounded-lg mb-4 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="flex gap-2">
+                <button onclick="toggleModal('modal-edit-produk')" class="w-1/2 border py-2 rounded-lg font-bold text-sm hover:bg-gray-50">Batal</button>
+                <button onclick="simpanEditProduk(this)" class="w-1/2 bg-blue-600 text-white py-2 rounded-lg font-bold text-sm hover:bg-blue-700">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-tambah-produk" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4"><div class="bg-white p-6 rounded-2xl w-full max-w-sm"><h3 class="font-bold mb-4 text-lg">Produk Baru</h3><input id="inp-sku" placeholder="SKU" class="w-full p-2 border rounded-lg mb-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"><input id="inp-nama" placeholder="Nama" class="w-full p-2 border rounded-lg mb-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"><div class="flex gap-2 mb-2"><input id="inp-kategori" placeholder="Kategori" class="w-1/2 p-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"><input id="inp-satuan" placeholder="Satuan" class="w-1/2 p-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></div><input type="number" id="inp-harga" placeholder="Harga Jual" class="w-full p-2 border rounded-lg mb-4 text-sm outline-none focus:ring-2 focus:ring-blue-500"><div class="flex gap-2"><button onclick="toggleModal('modal-tambah-produk')" class="w-1/2 border py-2 rounded-lg font-bold text-sm">Batal</button><button onclick="simpanProdukBaru()" class="w-1/2 bg-brand text-white py-2 rounded-lg font-bold text-sm">Simpan</button></div></div></div>
     <div id="modal-tambah-stok" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4"><div class="bg-white p-6 rounded-2xl w-full max-w-sm"><h3 class="font-bold mb-4 text-lg">Stok Masuk</h3><input id="stok-sku" placeholder="SKU" class="w-full p-2 border rounded-lg mb-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"><div class="flex gap-2 mb-2"><input type="number" id="stok-qty" placeholder="Qty" class="w-1/3 p-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"><input type="number" id="stok-harga-beli" placeholder="Harga Satuan" class="w-2/3 p-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></div><input id="stok-supplier" placeholder="Supplier" class="w-full p-2 border rounded-lg mb-4 text-sm outline-none focus:ring-2 focus:ring-blue-500"><div class="flex gap-2"><button onclick="toggleModal('modal-tambah-stok')" class="w-1/2 border py-2 rounded-lg font-bold text-sm">Batal</button><button onclick="simpanStokMasuk()" class="w-1/2 bg-green-500 text-white py-2 rounded-lg font-bold text-sm">Proses</button></div></div></div>
     <div id="modal-detail-trx" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4"><div class="bg-white p-5 md:p-6 rounded-2xl w-full max-w-md flex flex-col max-h-[85vh]"><h3 class="font-bold text-lg mb-3 border-b pb-2">Detail Transaksi</h3><div id="detail-trx-content" class="overflow-y-auto flex-1 text-sm space-y-2 mb-4 pr-1"></div><button onclick="toggleModal('modal-detail-trx')" class="w-full bg-gray-200 py-2.5 rounded-lg font-bold">Tutup</button></div></div>
@@ -146,12 +170,12 @@
         
         let chartInstance; let OWNER_PIN = ""; let RIWAYAT_GLOBAL = []; 
         let PENGATURAN_GLOBAL = { Nama_Toko: "ADMIN POS", Warna_Utama: "#2563eb" };
+        let PRODUK_GLOBAL = []; // Variabel penampung katalog produk untuk fungsi Edit
 
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
         function tekanPin(n) { document.getElementById('pin-admin').value += n; }
         function bersihkanPin() { document.getElementById('pin-admin').value = ""; }
 
-        // Fungsi Terapkan UI Dinamis
         function terapkanPengaturanUI(pengaturan) {
             if(pengaturan.Warna_Utama) document.documentElement.style.setProperty('--color-primary', pengaturan.Warna_Utama);
             if(pengaturan.Nama_Toko) {
@@ -203,7 +227,7 @@
                             let tglStr = "Invalid"; if(trx.tanggal) { let d = new Date(trx.tanggal); if(!isNaN(d.getTime())) tglStr = d.toLocaleString('id-ID'); } 
                             tbRiwayat.innerHTML += `<tr class="hover:bg-blue-50 transition"><td class="p-3 md:p-4 text-xs text-gray-500">${tglStr}</td><td class="p-3 md:p-4 font-bold text-gray-800 text-xs md:text-sm">${trx.id_transaksi}</td><td class="p-3 md:p-4"><span class="bg-gray-100 border text-gray-600 px-2 py-1 rounded text-[10px] md:text-xs">${trx.kasir}</span></td><td class="p-3 md:p-4 font-bold text-brand text-xs md:text-sm">Rp ${(Number(trx.total_bayar)||0).toLocaleString('id-ID')}</td><td class="p-3 md:p-4 text-center"><button onclick="lihatDetailTrx('${trx.id_transaksi}')" class="bg-blue-100 text-brand px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-200 shadow-sm">Rincian</button></td></tr>`; 
                         });
-                        perbaruiFilterKasir(); // Memicu pembaruan daftar filter kasir
+                        perbaruiFilterKasir(); 
                     }
                 }
             } catch(e) { document.getElementById('txt-omset').innerText = "Rp 0"; }
@@ -222,7 +246,12 @@
             try {
                 const res = await (await fetch(URL_GAS + "?action=get_admin_products&api_key=" + SECRET_KEY + "&pin=" + OWNER_PIN)).json();
                 const tb = document.getElementById('tabel-produk-body'); tb.innerHTML = "";
-                res.produk.forEach(p => { tb.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 md:p-4 text-xs md:text-sm">${p.SKU}</td><td class="p-3 md:p-4 font-bold text-xs md:text-sm">${p.Nama}</td><td class="p-4">Rp ${Number(p.Harga_Jual).toLocaleString('id-ID')}</td><td class="p-3 md:p-4 text-gray-500 text-xs md:text-sm">Rp ${(Number(p.HPP)||0).toLocaleString('id-ID')}</td><td class="p-3 md:p-4 font-bold text-brand text-xs md:text-sm">${p.Stok_Sekarang||0}</td></tr>`; });
+                if (res.status === "success") {
+                    PRODUK_GLOBAL = res.produk; // Simpan di memori untuk form edit
+                    res.produk.forEach(p => { 
+                        tb.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 md:p-4 text-xs md:text-sm">${p.SKU}</td><td class="p-3 md:p-4 font-bold text-xs md:text-sm">${p.Nama}</td><td class="p-4">Rp ${Number(p.Harga_Jual).toLocaleString('id-ID')}</td><td class="p-3 md:p-4 text-gray-500 text-xs md:text-sm">Rp ${(Number(p.HPP)||0).toLocaleString('id-ID')}</td><td class="p-3 md:p-4 font-bold text-brand text-xs md:text-sm">${p.Stok_Sekarang||0}</td><td class="p-3 md:p-4 text-center"><button onclick="bukaEditProduk('${p.SKU}')" class="text-blue-500 hover:text-blue-700 bg-blue-50 px-2 py-1 rounded shadow-sm mr-2" title="Edit">✏️</button><button onclick="konfirmasiHapusProduk('${p.SKU}')" class="text-red-500 hover:text-red-700 bg-red-50 px-2 py-1 rounded shadow-sm" title="Hapus">🗑️</button></td></tr>`; 
+                    });
+                }
             } catch(e){}
         }
 
@@ -236,14 +265,53 @@
             toggleModal('modal-tambah-stok'); await fetch(URL_GAS, { method: 'POST', body: JSON.stringify({ action: "tambah_stok_supplier", api_key: SECRET_KEY, pin: OWNER_PIN, data: data }) }); muatKatalog();
         }
 
-        // Buka pengaturan modal
+        // ================= FITUR BARU: FUNGSI EDIT & HAPUS PRODUK =================
+        function bukaEditProduk(sku) {
+            const p = PRODUK_GLOBAL.find(x => x.SKU === sku);
+            if(!p) return;
+            document.getElementById('edit-sku-lama').value = p.SKU; // Menyimpan ID SKU 
+            document.getElementById('edit-nama').value = p.Nama;
+            document.getElementById('edit-kategori').value = p.Kategori;
+            document.getElementById('edit-satuan').value = p.Satuan;
+            document.getElementById('edit-harga').value = parseInt(p.Harga_Jual.toString().replace(/[^0-9]/g, '')) || 0;
+            toggleModal('modal-edit-produk');
+        }
+
+        async function simpanEditProduk(btnElement) {
+            const data = {
+                sku_lama: document.getElementById('edit-sku-lama').value,
+                nama: document.getElementById('edit-nama').value,
+                kategori: document.getElementById('edit-kategori').value,
+                satuan: document.getElementById('edit-satuan').value,
+                harga_jual: parseInt(document.getElementById('edit-harga').value) || 0
+            };
+            btnElement.innerText = "Menyimpan...";
+            
+            try {
+                await fetch(URL_GAS, { method: 'POST', body: JSON.stringify({ action: "edit_produk", api_key: SECRET_KEY, pin: OWNER_PIN, data: data }) });
+            } catch(e) { alert("Terjadi kesalahan jaringan"); }
+            
+            btnElement.innerText = "Simpan Perubahan";
+            toggleModal('modal-edit-produk');
+            muatKatalog(); // Muat ulang tabel agar perubahan terlihat
+        }
+
+        async function konfirmasiHapusProduk(sku) {
+            if(confirm(`YAKIN INGIN MENGHAPUS PRODUK?\n\nSKU: ${sku}\n\nPerhatian: Menghapus produk bisa menyebabkan riwayat HPP transaksi di masa lalu sedikit berubah jika barang ini pernah terjual.`)) {
+                try {
+                    await fetch(URL_GAS, { method: 'POST', body: JSON.stringify({ action: "hapus_produk", api_key: SECRET_KEY, pin: OWNER_PIN, data: {sku: sku} }) });
+                    muatKatalog(); // Muat ulang tabel setelah dihapus
+                } catch(e) { alert("Gagal menghapus produk"); }
+            }
+        }
+        // ===========================================================================
+
         function bukaModalPengaturan() {
             document.getElementById('inp-nama-toko').value = PENGATURAN_GLOBAL.Nama_Toko || "";
             document.getElementById('inp-warna-utama').value = PENGATURAN_GLOBAL.Warna_Utama || "#2563eb";
             toggleModal('modal-pengaturan');
         }
 
-        // Simpan pengaturan dan push ke server
         async function simpanPengaturan() {
             const btn = document.getElementById('btn-simpan-pengaturan'); btn.innerText = "Menyimpan...";
             const data = { nama_toko: document.getElementById('inp-nama-toko').value, warna_utama: document.getElementById('inp-warna-utama').value };
@@ -261,7 +329,6 @@
             btn.innerText = "Simpan"; toggleModal('modal-pengaturan');
         }
 
-        // FITUR BARU: FILTER KASIR OTOMATIS
         function perbaruiFilterKasir() {
             const select = document.getElementById('filter-kasir-export');
             const kasirUnik = [...new Set(RIWAYAT_GLOBAL.map(item => item.kasir))];
@@ -269,7 +336,6 @@
             kasirUnik.forEach(k => select.innerHTML += `<option value="${k}">${k}</option>`);
         }
 
-        // FITUR BARU: EXPORT EXCEL (ADMIN)
         function exportExcelAdmin() {
             const filter = document.getElementById('filter-kasir-export').value;
             const dataExport = filter === "ALL" ? RIWAYAT_GLOBAL : RIWAYAT_GLOBAL.filter(t => t.kasir === filter);
@@ -287,7 +353,6 @@
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
-        // FITUR BARU: CETAK PDF (ADMIN)
         function cetakPDFAdmin() {
             const filter = document.getElementById('filter-kasir-export').value;
             const dataExport = filter === "ALL" ? RIWAYAT_GLOBAL : RIWAYAT_GLOBAL.filter(t => t.kasir === filter);
