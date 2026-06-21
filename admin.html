@@ -139,7 +139,8 @@
     <div id="modal-edit-produk" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 p-4">
         <div class="bg-white p-6 rounded-2xl w-full max-w-sm">
             <h3 class="font-bold mb-4 text-lg">✏️ Edit Produk</h3>
-            <input id="edit-sku-lama" type="hidden"> <label class="block text-xs font-bold text-gray-500 mb-1">Nama Produk</label>
+            <input id="edit-sku-lama" type="hidden"> 
+            <label class="block text-xs font-bold text-gray-500 mb-1">Nama Produk</label>
             <input id="edit-nama" placeholder="Nama" class="w-full p-2 border rounded-lg mb-2 text-sm outline-none focus:ring-2 focus:ring-blue-500">
             <div class="flex gap-2 mb-2">
                 <div class="w-1/2">
@@ -170,7 +171,7 @@
         
         let chartInstance; let OWNER_PIN = ""; let RIWAYAT_GLOBAL = []; 
         let PENGATURAN_GLOBAL = { Nama_Toko: "ADMIN POS", Warna_Utama: "#2563eb" };
-        let PRODUK_GLOBAL = []; // Variabel penampung katalog produk untuk fungsi Edit
+        let PRODUK_GLOBAL = []; 
 
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
         function tekanPin(n) { document.getElementById('pin-admin').value += n; }
@@ -247,7 +248,7 @@
                 const res = await (await fetch(URL_GAS + "?action=get_admin_products&api_key=" + SECRET_KEY + "&pin=" + OWNER_PIN)).json();
                 const tb = document.getElementById('tabel-produk-body'); tb.innerHTML = "";
                 if (res.status === "success") {
-                    PRODUK_GLOBAL = res.produk; // Simpan di memori untuk form edit
+                    PRODUK_GLOBAL = res.produk; 
                     res.produk.forEach(p => { 
                         tb.innerHTML += `<tr class="border-b hover:bg-gray-50"><td class="p-3 md:p-4 text-xs md:text-sm">${p.SKU}</td><td class="p-3 md:p-4 font-bold text-xs md:text-sm">${p.Nama}</td><td class="p-4">Rp ${Number(p.Harga_Jual).toLocaleString('id-ID')}</td><td class="p-3 md:p-4 text-gray-500 text-xs md:text-sm">Rp ${(Number(p.HPP)||0).toLocaleString('id-ID')}</td><td class="p-3 md:p-4 font-bold text-brand text-xs md:text-sm">${p.Stok_Sekarang||0}</td><td class="p-3 md:p-4 text-center"><button onclick="bukaEditProduk('${p.SKU}')" class="text-blue-500 hover:text-blue-700 bg-blue-50 px-2 py-1 rounded shadow-sm mr-2" title="Edit">✏️</button><button onclick="konfirmasiHapusProduk('${p.SKU}')" class="text-red-500 hover:text-red-700 bg-red-50 px-2 py-1 rounded shadow-sm" title="Hapus">🗑️</button></td></tr>`; 
                     });
@@ -265,11 +266,10 @@
             toggleModal('modal-tambah-stok'); await fetch(URL_GAS, { method: 'POST', body: JSON.stringify({ action: "tambah_stok_supplier", api_key: SECRET_KEY, pin: OWNER_PIN, data: data }) }); muatKatalog();
         }
 
-        // ================= FITUR BARU: FUNGSI EDIT & HAPUS PRODUK =================
         function bukaEditProduk(sku) {
             const p = PRODUK_GLOBAL.find(x => x.SKU === sku);
             if(!p) return;
-            document.getElementById('edit-sku-lama').value = p.SKU; // Menyimpan ID SKU 
+            document.getElementById('edit-sku-lama').value = p.SKU; 
             document.getElementById('edit-nama').value = p.Nama;
             document.getElementById('edit-kategori').value = p.Kategori;
             document.getElementById('edit-satuan').value = p.Satuan;
@@ -293,18 +293,17 @@
             
             btnElement.innerText = "Simpan Perubahan";
             toggleModal('modal-edit-produk');
-            muatKatalog(); // Muat ulang tabel agar perubahan terlihat
+            muatKatalog(); 
         }
 
         async function konfirmasiHapusProduk(sku) {
             if(confirm(`YAKIN INGIN MENGHAPUS PRODUK?\n\nSKU: ${sku}\n\nPerhatian: Menghapus produk bisa menyebabkan riwayat HPP transaksi di masa lalu sedikit berubah jika barang ini pernah terjual.`)) {
                 try {
                     await fetch(URL_GAS, { method: 'POST', body: JSON.stringify({ action: "hapus_produk", api_key: SECRET_KEY, pin: OWNER_PIN, data: {sku: sku} }) });
-                    muatKatalog(); // Muat ulang tabel setelah dihapus
+                    muatKatalog(); 
                 } catch(e) { alert("Gagal menghapus produk"); }
             }
         }
-        // ===========================================================================
 
         function bukaModalPengaturan() {
             document.getElementById('inp-nama-toko').value = PENGATURAN_GLOBAL.Nama_Toko || "";
@@ -372,7 +371,7 @@
                 w.document.write(`<tr><td>${tgl}</td><td>${trx.id_transaksi}</td><td>${trx.kasir}</td><td>${trx.metode_bayar}</td><td>${itemStr}</td><td class="text-right">Rp ${trx.total_bayar.toLocaleString('id-ID')}</td></tr>`);
             });
             
-            w.document.write(`</tbody><tfoot><tr><th colspan="5" class="text-right">TOTAL PENDAPATAN:</th><th class="text-right">Rp ${total.toLocaleString('id-ID')}</th></tr></tfoot></table>`);
+            w.document.write(`<tr><th colspan="5" class="text-right" style="background-color:#f4f4f4;">TOTAL PENDAPATAN:</th><th class="text-right" style="background-color:#f4f4f4;">Rp ${total.toLocaleString('id-ID')}</th></tr></tbody></table>`);
             w.document.write('</body></html>');
             w.document.close(); w.focus(); w.print(); w.close();
         }
